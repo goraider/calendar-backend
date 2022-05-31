@@ -34,8 +34,20 @@ const createUser = (request, res = response) =>{
 }
 
 const loginUser = (request, res = response) =>{
-
+    
     const { email, password } = request.body;
+
+    const errors = validationResult( request );
+    //manejo de errores
+    if( !errors.isEmpty() ){
+
+        return res.status(400).json({
+            succesfull:false,
+            errors: errors.mapped()
+        });
+
+    }
+
 
     res.json({
         succesfull:true,

@@ -19,8 +19,27 @@ router.post(
     ],
     createUser
 );
-router.post('/', loginUser);
-router.get('/renew', revalidateToken);
+
+router.post(
+    '/',
+    [
+        check('email', 'El email es Obligatorio').isEmail(),
+        check('password', 'El password debe de 6 a 8 caracteres').isLength( { min:6 } )
+
+    ],
+    loginUser
+);
+
+router.get(
+    '/renew',
+    [
+        check('name', 'El nombre es Obligatorio').not().isEmpty(),
+        check('email', 'El email es Obligatorio').isEmail(),
+        check('password', 'El password debe de 6 a 8 caracteres').isLength( { min:6 } )
+
+    ],
+    revalidateToken
+);
 
 
 
