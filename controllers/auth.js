@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { validationResult } = require('express-validator');
+//const { validationResult } = require('express-validator');
 
 
 
@@ -8,18 +8,6 @@ const createUser = (request, res = response) =>{
     //console.log(request.body);
 
     const { name, email, password } = request.body;
-
-    //manejo de errores
-    const errors = validationResult( request );
-
-    if( !errors.isEmpty() ){
-
-        return res.status(400).json({
-            succesfull:false,
-            errors: errors.mapped()
-        });
-
-    }
 
     res.status(201).json({
 
@@ -36,17 +24,6 @@ const createUser = (request, res = response) =>{
 const loginUser = (request, res = response) =>{
     
     const { email, password } = request.body;
-
-    const errors = validationResult( request );
-    //manejo de errores
-    if( !errors.isEmpty() ){
-
-        return res.status(400).json({
-            succesfull:false,
-            errors: errors.mapped()
-        });
-
-    }
 
 
     res.json({
