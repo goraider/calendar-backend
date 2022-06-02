@@ -1,11 +1,15 @@
 const express = require('express');
 require('dotenv').config();
+const { dbConnection } = require('./database/config');
 
 //correr los procesos que corren en el backend
 //console.log(process.env);
 
 //create express server
 const app = express();
+
+//Base de Datos
+dbConnection();
 
 
 //Directorio Publico
