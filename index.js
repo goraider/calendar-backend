@@ -1,5 +1,6 @@
 const express = require('express');
 require('dotenv').config();
+const cors = require('cors');
 const { dbConnection } = require('./database/config');
 
 //correr los procesos que corren en el backend
@@ -10,6 +11,8 @@ const app = express();
 
 //Base de Datos
 dbConnection();
+
+app.use(cors());
 
 
 //Directorio Publico
