@@ -1,32 +1,55 @@
 const { response } = require('express');
+const Evento = require('../models/Evento');
 
 
 
-const getEventos = (request, res = response) =>{
+const getEventos = async(request, res = response) =>{
 
-    const { test } = request.body;
+    //const { test } = request.body;
+    const eventos = await Evento.find()
+                                .populate('user');
 
     return res.status(400).json({
 
-        test: test,
         succesfull: true,
-        msg: 'obtener eventos'
+        msg: 'Lista de Eventos',
+        eventos
 
     });
 
 }
 
-const crearEvento = (request, res = response) =>{
+const crearEvento = async(request, res = response) =>{
 
-    const { evento } = request.body;
+    //console.log( request.body );
+    // const { evento } = request.body;
+    const evento = new Evento( request.body );
 
-    return res.status(400).json({
+    try {
 
-        succesfull: true,
-        msg: 'Evento creado',
-        evento: evento
+        evento.user = request.uid;
+
+       const eventoGuardado = await evento.save();
+
+        res.status(400).json({
+
+            succesfull: true,
+            evento: eventoGuardado,
+            msg: 'Evento Creado'
+            
+        });
+
         
-    });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            succesfull: false,
+            msg: 'Hablar con el administrador',
+        });
+        
+    }
+
+
 
 }
 
