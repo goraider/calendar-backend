@@ -53,26 +53,114 @@ const crearEvento = async(request, res = response) =>{
 
 }
 
-const actualizarEvento = (request, res = response) =>{
+const actualizarEvento = async(request, res = response) =>{
 
-    return res.status(400).json({
+    const eventoId = request.params.id;
+    const uid      = request.uid;
+
+    try {
+
+        const evento = await Evento.findById( eventoId );
+
+        if( !evento ) {
+            res.status(404).json({
+                succesfull: false,
+                msg: 'El Evento no existe con este ID'
+            });
+        }
+
+        if( evento.user.toString() !== uid ){
+
+            return res.status(401).json({
+                succesfull: false,
+                msg: 'No tiene privilegios de editar este evento'
+            });
+        }
+
+        const nuevoEvento = {
+            ...request.body,
+            user:uid
+        }
+
+        const eventoActualizado = await Evento.findByIdAndUpdate( eventoId, nuevoEvento, {new: true} );
+
+        res.json({
+            succesfull: true,
+            evento: eventoActualizado
+        });
+        
+    } catch (error) {
+
+        console.log(error);
+        res.status(500).json({
+            succesfull: false,
+            msg: "Hable con el administrador"
+        });
+        
+    }
+
+    
+    res.status(400).json({
 
         succesfull: true,
-        msg: 'Evento Actualizado'
+        eventoId
         
     });
 
 }
 
-const eliminarEvento = (request, res = response) =>{
+const eliminarEvento = async(request, res = response) =>{
+
+    const eventoId = request.params.id;
+    const uid      = request.uid;
+
+    console.log(uid);
+    try {
+
+        const evento = await Evento.findById( eventoId );
+
+        if( !evento ) {
+
+            return res.status(404).json({
+                succesfull: false,
+                msg: 'El Evento no existe con este ID'
+            });
+        }
+
+        if( evento.user.toString() !== uid ){
+
+            return res.status(401).json({
+                succesfull: false,
+                msg: 'No tiene privilegios de Eliminar este evento'
+            });
+        }
+
+
+        await Evento.findByIdAndDelete( eventoId );
+
+        res.json({
+            succesfull: true,
+            msg: 'Evento Eliminado'
+            //evento: eventoActualizado
+        });
+        
+    } catch (error) {
+
+        console.log(error);
+        res.status(500).json({
+            succesfull: false,
+            msg: "Hable con el administrador"
+        });
+        
+    }
     
 
-    return res.status(400).json({
+    // return res.status(400).json({
 
-        succesfull: true,
-        msg: 'Evento Eliminado'
+    //     succesfull: true,
+    //     msg: 'Evento Eliminado'
         
-    });
+    // });
 
 }
 

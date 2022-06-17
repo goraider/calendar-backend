@@ -26,9 +26,9 @@ router.post(
     crearEvento
 );
 
-router.put( '/actualizar-evento:id', actualizarEvento );
+router.put( '/actualizar-evento/:id', actualizarEvento );
 
-router.delete( '/eliminar-evento:id', eliminarEvento );
+router.delete( '/eliminar-evento/:id', eliminarEvento );
 
 
 
