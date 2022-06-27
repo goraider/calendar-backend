@@ -9,7 +9,7 @@ const getEventos = async(request, res = response) =>{
     const eventos = await Evento.find()
                                 .populate('user');
 
-    return res.status(400).json({
+    return res.status(200).json({
 
         succesfull: true,
         msg: 'Lista de Eventos',
@@ -31,7 +31,7 @@ const crearEvento = async(request, res = response) =>{
 
        const eventoGuardado = await evento.save();
 
-        res.status(400).json({
+        res.status(200).json({
 
             succesfull: true,
             evento: eventoGuardado,
@@ -84,7 +84,7 @@ const actualizarEvento = async(request, res = response) =>{
 
         const eventoActualizado = await Evento.findByIdAndUpdate( eventoId, nuevoEvento, {new: true} );
 
-        res.json({
+        res.status(200).json({
             succesfull: true,
             evento: eventoActualizado
         });
@@ -100,7 +100,7 @@ const actualizarEvento = async(request, res = response) =>{
     }
 
     
-    res.status(400).json({
+    res.status(200).json({
 
         succesfull: true,
         eventoId
@@ -138,7 +138,7 @@ const eliminarEvento = async(request, res = response) =>{
 
         await Evento.findByIdAndDelete( eventoId );
 
-        res.json({
+        res.status(200).json({
             succesfull: true,
             msg: 'Evento Eliminado'
             //evento: eventoActualizado
