@@ -21,7 +21,15 @@ const EventoSchema =  Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
         required: true
-    }
+    },
+    persons:[
+        {
+            nombre: String,
+            cargo: String,
+            correo:String,
+            celular: Number,
+        }
+    ]
 });
 
 EventoSchema.method('toJSON', function() {

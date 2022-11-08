@@ -21,10 +21,10 @@ const getEventos = async(request, res = response) =>{
 
 const crearEvento = async(request, res = response) =>{
 
-    //console.log( request.body );
     // const { evento } = request.body;
     const evento = new Evento( request.body );
-
+    
+    console.log( request.body );
     try {
 
         evento.user = request.uid;
